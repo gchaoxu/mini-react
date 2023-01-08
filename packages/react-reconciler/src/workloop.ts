@@ -2,6 +2,7 @@ import { beginWork } from './beginWork';
 import { completeWork } from './completeWork';
 import { createWorkInProgress, FiberNode, FiberRootNode } from './fiber';
 import { HostRoot } from './workTags';
+
 let worklInProgress: FiberNode | null = null;
 
 function prepareFreshStack(root: FiberRootNode) {
@@ -41,7 +42,9 @@ function renderRoot(root: FiberRootNode) {
 			workLoop();
 			break;
 		} catch (e) {
-			console.log('workLoop发生错误', e);
+			if (__DEV__) {
+				console.log('workLoop发生错误', e);
+			}
 			worklInProgress = null;
 		}
 	} while (true);
