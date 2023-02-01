@@ -4,8 +4,9 @@ import fs from 'fs';
 import ts from 'rollup-plugin-typescript2';
 import cjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
-
+// pkg 的路径
 const pkgPath = path.resolve(__dirname, '../../packages');
+// 打包产物的路径
 const distPath = path.resolve(__dirname, '../../dist/node_modules');
 
 export function resolvePkgPath(pkgName, isDist) {
@@ -29,5 +30,6 @@ export function getBaseRollupPlugins({
 	},
 	typescript = {}
 } = {}) {
+	// 基础打包需要的插件，一个是 解析 CommonJS 的插件，一个是将 TS 转为 JS 的插件
 	return [replace(alias), cjs(), ts(typescript)];
 }

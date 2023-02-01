@@ -4,9 +4,18 @@ import { FiberNode } from './fiber';
 import { processUpdateQueue, UpdateQueue } from './updateQueue';
 import { HostComponent, HostRoot, HostText } from './workTags';
 
-// 递归中的递阶段
+/**
+ * DFS（深度优先遍历）的顺序遍历 ReactElement，这意味着：
+ * 如果有子节点，遍历子节点；
+ * 如果没有子节点，遍历兄弟节点；
+ * !这是个递归的过程，存在递、归两个阶段：递：对应beginWork；归：对应completeWork
+ */
 export const beginWork = (wip: FiberNode) => {
-	// 比较，返回子fiberNode
+	/**
+	 * *beginWork 函数的作用是：
+	 * 比较 ReactElement 和 fiberNode 产生各种标记，
+	 * 返回子fiberNode
+	 * */
 	switch (wip.tag) {
 		case HostRoot:
 			return updateHostRoot(wip);

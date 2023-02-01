@@ -3,6 +3,15 @@ import { FunctionComponent, HostComponent, WorkTag } from './workTags';
 import { NoFlags, Flags } from './fiberFlags';
 import { Container } from 'hostConfig';
 
+/**
+ * *ReactElement 是一种数据结构，将 JSX转换 playground
+ * !ReactElement 如果作为核心模块操作的数据结构，存在的问题：1. 无法表达节点之间的关系；2. 字段有限，不好拓展（比如：无法表达状态）；
+ * *所以，需要一种新的数据结构，他的特点：
+ * 1. 介于ReactElement与真实UI节点之间；
+ * 2. 能够表达节点之间的关系；
+ * 3. 方便拓展（不仅作为数据存储单元，也能作为工作单元）；
+ * */
+
 export class FiberNode {
 	type: any;
 	tag: WorkTag;
@@ -24,7 +33,7 @@ export class FiberNode {
 	updateQueue: unknown;
 
 	constructor(tag: WorkTag, pendingProps: Props, key: Key) {
-		// 实例
+		// 实例属性
 		this.tag = tag;
 		this.key = key;
 		// HostComponent <div> 对应的 div DOM
@@ -32,20 +41,38 @@ export class FiberNode {
 		// FunctionComponent () => {}
 		this.type = null;
 
-		// 构成树状结构
+		/**
+		 * !构成树状结构：
+		 * *分别指向 父级，兄弟以及子级 fiberNode
+		 */
 		this.return = null;
 		this.sibling = null;
 		this.child = null;
 		this.index = 0;
 
-		// 作为工作单元
+		this.ref = null;
+
+		/**
+		 * *作为工作单元
+		 * pendingProps：记录工作中的 props
+		 * memoizedProps：记录工作完之后的 props
+		 */
 		this.pendingProps = pendingProps;
 		this.memoizedProps = null;
 		this.memoizedState = null;
 		this.updateQueue = null;
 
+		/**
+		 * !双缓存技术
+		 * 对于同一个节点，比较其 ReactElement 与 fiberNode ，生成子 fiberNode；
+		 * 当所有 ReactElement 比较完后，会生成一棵 fiberNode 树；一共会存在两棵 fiberNode 树：
+		 * 1. current：与视图中真实UI对应的 fiberNode 树
+		 * 2. workInProgress：触发更新后，正在 reconciler 中计算的 fiberNode 树
+		 */
+		// *当 current 对应真实 UI 的 fiberNode 树时，alternate 对应 workInProgress 正在计算的 fiberNode 树
 		this.alternate = null;
-		// 副作用
+
+		// 副作用，记录对应标记 Placement | Update | ChildDeletion
 		this.flags = NoFlags;
 		this.subtreeFlags = NoFlags;
 	}

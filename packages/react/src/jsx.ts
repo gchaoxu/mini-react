@@ -7,8 +7,9 @@ import {
 	ReactElementType,
 	ElementType
 } from 'shared/ReactTypes';
-// ReactElement
+// ReactElement 是一个与宿主环境无关的数据结构，所以它的类型定义在 shared 文件中
 
+//! ReactElement 所表示的是数据结构
 const ReactElement = function (
 	type: Type,
 	key: Key,
@@ -16,7 +17,7 @@ const ReactElement = function (
 	props: Props
 ): ReactElementType {
 	const element = {
-		$$typeof: REACT_ELEMENT_TYPE,
+		$$typeof: REACT_ELEMENT_TYPE, //该属性用于区分该结构是 ReactElement 结构
 		type,
 		key,
 		ref,
@@ -28,6 +29,7 @@ const ReactElement = function (
 };
 
 export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
+	//* 在 jsx 函数中单独处理 key, props, ref 属性
 	let key: Key = null;
 	const props: Props = {};
 	let ref: Ref = null;
