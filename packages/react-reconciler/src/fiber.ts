@@ -91,6 +91,7 @@ export class FiberRootNode {
 	}
 }
 
+// 该函数实行双缓存技术，也即函数接收 current，返回对应的 alternate
 export const createWorkInProgress = (
 	current: FiberNode,
 	pendingProps: Props

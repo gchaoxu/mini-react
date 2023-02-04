@@ -10,6 +10,7 @@ import {
 import { scheduleUpdateOnFiber } from './workloop';
 import { HostRoot } from './workTags';
 
+// 创建根节点，fiberRootNode
 export function createContainer(container: Container) {
 	const hostRootFiber = new FiberNode(HostRoot, {}, null);
 	const root = new FiberRootNode(container, hostRootFiber);

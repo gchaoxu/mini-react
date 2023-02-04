@@ -14,6 +14,7 @@ function prepareFreshStack(root: FiberRootNode) {
 export function scheduleUpdateOnFiber(fiber: FiberNode) {
 	// TODO 调度功能
 	// fiberRootNode
+	// 更新可能发生于任意组件，而更新流程是从根节点递归的
 	const root = markUpdateFromFiberToRoot(fiber);
 	renderRoot(root);
 }
