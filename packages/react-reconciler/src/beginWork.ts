@@ -60,7 +60,7 @@ function reconcileChildren(wip: FiberNode, children?: ReactElementType) {
 		// update
 		wip.child = reconcileChildFibers(wip, current?.child, children);
 	} else {
-		// mount
+		// mount （只有在初始化操作中才会有大量的 flags 生成）
 		wip.child = mountChildFibers(wip, null, children);
 	}
 }

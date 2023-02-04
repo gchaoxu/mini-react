@@ -31,6 +31,7 @@ export default [
 			// webpack resolve alias
 			alias({
 				entries: {
+					// rollup 打包时指定 hostConfig 的路径
 					hostConfig: `${pkgPath}/src/hostConfig.ts`
 				}
 			}),

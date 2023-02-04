@@ -4,6 +4,11 @@ import { FiberNode, createFiberFromElement } from './fiber';
 import { HostText } from './workTags';
 import { Placement } from './fiberFlags';
 
+/**
+ * beginWork 性能优化策略（5-1）
+ * 考虑到 reactElement mount 流程完毕之后包含很多的 flags
+ * 相比于执行5次Placment，我们可以构建好「离屏DOM树」后，对div执行1次Placement操作
+ */
 function ChildReconciler(shouldTrackEffects: boolean) {
 	function reconcileSingleElement(
 		returnFiber: FiberNode,

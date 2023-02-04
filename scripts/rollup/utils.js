@@ -3,9 +3,13 @@ import fs from 'fs';
 
 import ts from 'rollup-plugin-typescript2';
 import cjs from '@rollup/plugin-commonjs';
+
+// 在开发环境下增加 __DEV__标识，方便 Dev 包打印更多的信息
 import replace from '@rollup/plugin-replace';
+
 // pkg 的路径
 const pkgPath = path.resolve(__dirname, '../../packages');
+
 // 打包产物的路径
 const distPath = path.resolve(__dirname, '../../dist/node_modules');
 

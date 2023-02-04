@@ -55,6 +55,7 @@ function appendAllChildren(parent: Container, wip: FiberNode) {
 		if (node.tag === HostComponent || node.tag === HostText) {
 			appendInitialChild(parent, node?.stateNode);
 		} else if (node.child !== null) {
+			// 向下查找
 			node.child.return = node;
 			node = node.child;
 			continue;
@@ -64,7 +65,7 @@ function appendAllChildren(parent: Container, wip: FiberNode) {
 
 		while (node.sibling === null) {
 			if (node.return === null || node.return === wip) return;
-
+			// 向上递归
 			node = node?.return;
 		}
 
@@ -73,6 +74,10 @@ function appendAllChildren(parent: Container, wip: FiberNode) {
 	}
 }
 
+/**
+ * completeWork性能优化策略：flags分布在不同fiberNode中，如何快速找到他们？
+ * 利用completeWork向上遍历（归）的流程，将子fiberNode的flags冒泡到父fiberNode；
+ * */
 function bobbleProperties(wip: FiberNode) {
 	let subtreeFlags = NoFlags;
 	let child = wip.child;
