@@ -1,8 +1,14 @@
 import { ReactElementType } from 'shared/ReactTypes';
 import { reconcileChildFibers, mountChildFibers } from './childFibers';
 import { FiberNode } from './fiber';
+import { renderWithHooks } from './fiberHooks';
 import { processUpdateQueue, UpdateQueue } from './updateQueue';
-import { HostComponent, HostRoot, HostText } from './workTags';
+import {
+	FunctionComponent,
+	HostComponent,
+	HostRoot,
+	HostText
+} from './workTags';
 
 /**
  * DFS（深度优先遍历）的顺序遍历 ReactElement，这意味着：
@@ -21,6 +27,8 @@ export const beginWork = (wip: FiberNode) => {
 			return updateHostRoot(wip);
 		case HostComponent:
 			return updateHostComponent(wip);
+		case FunctionComponent:
+			return updateFunctionComponent(wip);
 		case HostText:
 			return null;
 		default:
@@ -31,6 +39,13 @@ export const beginWork = (wip: FiberNode) => {
 	}
 	return null;
 };
+
+function updateFunctionComponent(wip: FiberNode) {
+	const nextChildren = renderWithHooks(wip);
+	reconcileChildren(wip, nextChildren);
+
+	return wip.child;
+}
 
 function updateHostRoot(wip: FiberNode) {
 	const baseState = wip.memoizedState;
