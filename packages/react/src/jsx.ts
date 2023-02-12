@@ -28,6 +28,14 @@ const ReactElement = function (
 	return element;
 };
 
+export function isValidElement(object: any) {
+	return (
+		typeof object === 'object' &&
+		object !== null &&
+		object.$$typeof === REACT_ELEMENT_TYPE
+	);
+}
+
 export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
 	//* 在 jsx 函数中单独处理 key, props, ref 属性
 	let key: Key = null;
