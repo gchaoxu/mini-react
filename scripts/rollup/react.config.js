@@ -17,6 +17,7 @@ export default [
 		output: {
 			file: `${pkgDistPath}/index.js`,
 			name: 'React',
+      // 这里使用打包之后兼容 CommonJS 和 ESM 的 umd 格式
 			format: 'umd'
 		},
 		plugins: [

@@ -22,6 +22,7 @@ export function resolvePkgPath(pkgName, isDist) {
 export function getPackageJSON(pkgName) {
 	// ...包的路径
 	const path = `${resolvePkgPath(pkgName)}/package.json`;
+  // 拿到 package 文件之后，使用 fs 模块将该文件读取为字符串
 	const str = fs.readFileSync(path, { encoding: 'utf-8' });
 	return JSON.parse(str);
 }

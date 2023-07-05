@@ -5,13 +5,13 @@
 		"node": true,
 		"jest": true
 	},
-	"extends": [
+	"extends": [ // 继承其他的 eslint 的配置
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
 		"prettier",
 		"plugin:prettier/recommended"
 	],
-	"parser": "@typescript-eslint/parser",
+	"parser": "@typescript-eslint/parser", // 用什么的解析器解析为 AST
 	"parserOptions": {
 		"ecmaVersion": "latest",
 		"sourceType": "module"
