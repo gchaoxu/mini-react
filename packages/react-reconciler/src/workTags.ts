@@ -1,3 +1,4 @@
+// 用于描述 fiberNode 的类型
 export type WorkTag =
 	| typeof FunctionComponent
 	| typeof HostRoot

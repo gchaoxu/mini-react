@@ -5,6 +5,7 @@ import { createWorkInProgress, FiberNode, FiberRootNode } from './fiber';
 import { MutationMask, NoFlags } from './fiberFlags';
 import { HostRoot } from './workTags';
 
+// ! 定义一个指针，指向的是当前正在工作的那个 fiberNode
 let worklInProgress: FiberNode | null = null;
 
 /**
@@ -42,11 +43,12 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
 	return null;
 }
 
+// !!! 谁调用该函数
 function renderRoot(root: FiberRootNode) {
 	// 初始化
 	prepareFreshStack(root);
 
-	// 执行递归的操作
+	// 执行递归操作
 	do {
 		try {
 			workLoop();
@@ -113,10 +115,13 @@ function workLoop() {
 }
 
 function performUnitOfWork(fiber: FiberNode) {
+	// 递归的递阶段
 	const next = beginWork(fiber);
+	// 这里 beginWork 执行完毕之后，将 memoizedProps 赋值为 pendingProps
 	fiber.memoizedProps = fiber.pendingProps;
 
 	if (next === null) {
+		// 递归到最深层，没有子节点的情况
 		completeUnitOfWork(fiber);
 	} else {
 		worklInProgress = next;
@@ -126,12 +131,15 @@ function performUnitOfWork(fiber: FiberNode) {
 function completeUnitOfWork(fiber: FiberNode) {
 	let node: FiberNode | null = fiber;
 	do {
+		// TODO 这里执行 completeWork 的作用是什么
 		completeWork(node);
 		const sibling = node.sibling;
 		if (sibling !== null) {
+			// 当前 fiber 有兄弟节点，赋值给 worklInProgress 继续遍历
 			worklInProgress = sibling;
 			return;
 		}
+		// 没有兄弟节点返回，返回该节点的父 fiberNode,赋值给 worklInProgress 继续遍历
 		node = node.return;
 		worklInProgress = node;
 	} while (node !== null);

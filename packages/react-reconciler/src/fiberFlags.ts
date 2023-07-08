@@ -1,3 +1,4 @@
+// 表示 ReactElement 与 fiberNode 对比之后产生的标记
 export type Flags = number;
 export const NoFlags = 0b0000000;
 export const Placement = 0b0000001;
